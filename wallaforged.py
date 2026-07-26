@@ -521,6 +521,13 @@ def run_once(cfg, initial=False):
                 seen.add(it["id"])
                 continue
 
+            # Filtrar anuncios de 1€ (suelen ser pegatinas/basura)
+            price_amount = it.get("price", {}).get("amount", 0)
+            if flt.get("skip_price_1euro", True) and price_amount == 1:
+                seen.add(it["id"])
+                print(f"  [-]Descartado (1€ basura): {title}")
+                continue
+
             if flt.get("require_original", False):
                 tl = title.lower()
                 non_original = [
@@ -558,6 +565,22 @@ def run_once(cfg, initial=False):
                     print(f"  [-]Descartado (fantasma heuristico: {reason}): {title}")
                     continue
 
+            # FILTRO DISTANCIA + ENVIO: si el anuncio esta lejos y no tiene envio, descartar
+            max_dist = cfg.get("max_local_distance_km", 30)
+            ship = it.get("shipping", {})
+            allows_shipping = ship.get("user_allows_shipping", True) if isinstance(ship, dict) else True
+            dist_str = distance_from_user(it.get("location", {}), cfg.get("location", {}))
+            dist_km = None
+            if dist_str and "km" in dist_str:
+                try:
+                    dist_km = int(dist_str.split("~")[1].split("km")[0].strip())
+                except (ValueError, IndexError):
+                    pass
+            if dist_km is not None and dist_km > max_dist and not allows_shipping:
+                seen.add(it["id"])
+                print(f"  [-]Descartado (lejos + sin envio: {dist_str}): {title}")
+                continue
+
             seller_name = (user or {}).get("micro_name", "desconocido")
 
             def _cnt(key):
@@ -575,8 +598,6 @@ def run_once(cfg, initial=False):
             seller_info = f"top={ (user or {}).get('is_top_profile') }"
             seller_info += f" | pub={ _cnt('publish') } vend={ _cnt('sells') } comp={ _cnt('buys') }"
 
-            ship = it.get("shipping", {})
-            allows_shipping = ship.get("user_allows_shipping", True) if isinstance(ship, dict) else True
             shipping_tag = "Envio" if allows_shipping else "Solo en persona"
 
             conv = views = 0
@@ -588,7 +609,10 @@ def run_once(cfg, initial=False):
             interest_tag = f"{conv} contactos" + (f" · {views} vistas" if views else "")
 
             user_loc = cfg.get("location", {})
-            dist_tag = distance_from_user(it.get("location", {}), user_loc)
+            if not dist_str:
+                dist_tag = distance_from_user(it.get("location", {}), user_loc)
+            else:
+                dist_tag = dist_str
 
             seen.add(it["id"])
             new_count += 1
