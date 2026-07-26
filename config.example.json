@@ -1,0 +1,82 @@
+{
+  "check_interval_seconds": 43200,
+  "location": {
+    "latitude": 40.4168,
+    "longitude": -3.7038,
+    "country_code": "ES"
+  },
+  "max_search_pages": 3,
+  "searches": [
+    {
+      "name": "PS4 olvidados",
+      "keywords": [
+        "mando ps4",
+        "mando ps4 roto",
+        "ps4 drift",
+        "mando ps4 piezas",
+        "mando ps4 averiado"
+      ],
+      "min_price": 1,
+      "max_price": 15,
+      "order_by": "price_low_to_high"
+    },
+    {
+      "name": "PS5 olvidados",
+      "keywords": [
+        "mando ps5",
+        "mando ps5 roto",
+        "ps5 drift",
+        "mando dualsense roto",
+        "mando dualsense piezas"
+      ],
+      "min_price": 5,
+      "max_price": 30,
+      "order_by": "price_low_to_high"
+    }
+  ],
+  "filters": {
+    "enable_ghost_filter": true,
+    "max_last_connection_hours": 72,
+    "max_ghost_account_age_days": 60,
+    "max_days_since_item_modified": 14,
+    "min_item_age_hours": 24,
+    "exclude_keywords": [
+      "envio gratis", "nuevo", "sellado", "wii", "switch",
+      "xbox", "cargador", "soporte", "base", "fundas", "funda",
+      "stand", "volante", "pistola", "zapper", "ps3",
+      "playstation 3", "move", "motion", "lote", "compatible",
+      "alternativo", "generico", "genuino", "marca", "tmr",
+      "cambia", "cambio los", "reparacion", "repara", "cambiamos",
+      "joystick por", "cambia joystick", "reacondicionado",
+      "no oficial", "no original", "gaminja", "nacon", "pinata",
+      "piñata", "buzz", "ps2", "playstation 2", "game cube",
+      "gamecube", "raptor", "espositor", "estacion", "estación",
+      "battletron", "solucion", "solución", "mars", "media",
+      "remote", "estuche", "esw", "adaptador", "belltech",
+      "colgador", "decoracion", "decoración", "distancia",
+      "externa", "good deal", "jamswall", "kenzo", "kron",
+      "latec", "mastersystem", "nintendo", "powerlead", "ps1",
+      "raiju", "razer", "thrustmaster", "trustmaster"
+    ],
+    "must_mention": [
+      "mando", "dualshock", "dualsense", "control", "joystick"
+    ],
+    "require_original": true,
+    "require_keywords_in_title": []
+  },
+  "notifications": {
+    "console": true,
+    "log_file": "alerts.log",
+    "telegram": {
+      "enabled": true,
+      "bot_token": "",
+      "chat_id": ""
+    }
+  },
+  "state_file": "wallaforged_seen_items.json",
+  "initial_send_count": 5,
+  "heartbeat": {
+    "enabled": true,
+    "every_n_passes": 6
+  }
+}

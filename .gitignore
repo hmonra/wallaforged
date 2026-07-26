@@ -1,0 +1,17 @@
+# Config con secretos
+config.json
+
+# Estado y logs
+wallaforged_seen_items.json
+alerts.log
+telegram.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Otros
+SECRETS.txt
+RESUMEN.md
